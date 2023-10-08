@@ -1,0 +1,127 @@
+image: #rustify
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay2
+  CONTAINER_IMAGE: $CI_REGISTRY_IMAGE
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .m2/repository/
+    - target/
+
+stages:
+  - build
+  - verify
+  - unit-test
+  - integration-test
+  - package
+  - release
+  - docs
+#  - deploy
+
+compile:
+  stage: build
+  script:
+    # - TODO: rustify
+
+lint:
+  stage: verify
+  cache:
+    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    paths:
+      - .m2/repository/
+      - target/
+  script:
+    # - TODO: rustify
+  allow_failure: true
+  artifacts:
+    paths:
+      - target/checkstyle-result.xml
+    when: on_failure
+
+sats:
+  stage: verify
+  cache:
+    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    paths:
+      - .m2/repository/
+      - target/
+  script:
+    # - TODO: rustify
+  artifacts:
+    paths:
+      - target/spotbugsXml.xml
+    when: on_failure
+  dependencies: []
+
+unit-test:
+  stage: unit-test
+  cache:
+    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    paths:
+      - .m2/repository/
+  script:
+    # - TODO: rustify
+    - cat target/coverage/index.html
+  dependencies: []
+
+integration-test:
+  stage: integration-test
+  cache:
+    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    paths:
+      - .m2/repository/
+  script:
+    # - TODO: rustify
+  dependencies: []
+  only:
+  - master
+
+springboot-app:
+  stage: package
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - .m2/repository/
+    policy: pull
+  script:
+    # - TODO: rustify
+  dependencies: []
+  artifacts:
+    paths:
+      - target/*.jar
+    when: on_success
+
+docker-image:
+  stage: release
+  image: docker:stable
+  services:
+    - docker:dind
+  cache: {} # Disable cache
+  dependencies:
+    - springboot-app
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker pull $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME || true
+    - docker build --cache-from $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME -t $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME
+
+pages:
+  stage: docs
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - .m2/repository/
+    policy: pull
+  dependencies: []
+  script:
+    # - TODO: rustify
+    - mv target/site/apidocs public
+  artifacts:
+    paths:
+      - public
+    when: on_success
+  only:
+    - master
