@@ -1,2 +1,2 @@
-pub mod symbols;
 pub mod documents;
+pub mod symbols;

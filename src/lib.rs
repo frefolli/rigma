@@ -1,5 +1,6 @@
 pub mod models;
 pub mod schema;
+pub mod repositories;
 
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
@@ -13,18 +14,3 @@ pub fn establish_connection() -> PgConnection {
     PgConnection::establish(&database_url)
         .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
 }
-
-use self::models::{NewDocument, Document};
-
-pub fn create_document(conn: &mut PgConnection, name: &str, description: Option<&str>) -> Document {
-    use crate::schema::documents;
-
-    let new_document = NewDocument { name, description };
-
-    diesel::insert_into(documents::table)
-        .values(&new_document)
-        .returning(Document::as_returning())
-        .get_result(conn)
-        .expect("Error saving new document")
-}
-

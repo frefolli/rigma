@@ -1,4 +1,5 @@
-use rigma::*;
+use rigma::{establish_connection};
+use rigma::repositories::documents::{create_document};
 use std::io::{stdin, Read};
 
 fn main() {
@@ -17,7 +18,7 @@ fn main() {
     );
     stdin().read_to_string(&mut description).unwrap();
 
-    let document = create_document(connection, name, Some(&description));
+    let document = create_document(connection, &name, &description);
     println!("\nSaved draft {} with id {}", name, document.id);
 }
 

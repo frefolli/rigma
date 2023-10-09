@@ -1,4 +1,4 @@
-use rigma::models::*;
+use rigma::models::documents::{Document};
 use diesel::prelude::*;
 use rigma::*;
 
@@ -15,9 +15,6 @@ fn main() {
     for document in results {
         println!("{}", document.name);
         println!("-----------\n");
-        match document.description {
-            Some(desc) => println!("{}", desc),
-            None => {}
-        }
+        println!("{}", document.description);
     }
 }
