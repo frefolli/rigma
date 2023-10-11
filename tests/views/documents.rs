@@ -28,7 +28,7 @@ mod documents {
     #[test]
     fn new_to_json() {
         let doc = Document::new();
-        let rep = format!("{}", doc);
+        let rep = format!("{}", doc.to_json());
         assert_eq!(rep, "{\"name\":\"\",\"description\":\"\",\"asset\":{\"symbols\":[],\"grammar\":[]}}");
     }
 }

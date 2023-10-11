@@ -1,15 +1,15 @@
 use serde::Serialize;
-use std::fmt::Disaply;
+use std::fmt;
 
-#[derive(Serialize, Clone)]
+#[derive(Serialize, Clone, Debug, PartialEq)]
 pub struct Symbol {
     pub name: String,
     pub terminality: bool
 }
 
-impl Display for Symbol {
+impl fmt::Display for Symbol {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "(symbol name: \"{}\" terminality: {}",
+        write!(f, "(symbol name: \"{}\" terminality: {})",
             self.name, self.terminality
         )
     }

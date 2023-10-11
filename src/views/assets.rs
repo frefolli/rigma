@@ -1,20 +1,19 @@
 use serde::Serialize;
 use super::symbols::{Symbol};
 use super::productions::{Production};
-use crate::helpers::strings::{vec_to_string};
-use std::fmt::Display;
+use std::fmt;
 
-#[derive(Serialize)]
+#[derive(Serialize, Debug, PartialEq)]
 pub struct Asset {
     pub symbols: Vec<Symbol>,
     pub grammar: Vec<Production>
 }
 
-impl Display for Asset {
+impl fmt::Display for Asset {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "(asset symbols: {} grammar: {})",
-                self.symbols,
-                self.grammar)
+        let srep = (&self.symbols).into_iter().map(|c| c.to_string()).collect::<Vec<String>>().join(", ");
+        let grep = (&self.grammar).into_iter().map(|c| c.to_string()).collect::<Vec<String>>().join(", ");
+        write!(f, "(asset symbols: [{}] grammar: [{}])", srep, grep)
     }
 }
 
@@ -27,7 +26,7 @@ impl Asset {
     }
 
     pub fn to_string(&self) -> String {
-        format!("{}", f);
+        format!("{}", self)
     }
 
     pub fn to_json(&self) -> String {

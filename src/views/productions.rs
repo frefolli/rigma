@@ -1,17 +1,16 @@
 use serde::Serialize;
-use std::fmt::Display;
+use std::fmt;
 
-#[derive(Serialize, Clone)]
+#[derive(Serialize, Clone, Debug, PartialEq)]
 pub struct Production {
     pub left: String,
     pub right: Vec<String>
 }
 
-impl Display for Production {
+impl fmt::Display for Production {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({} => {})",
-            self.left, self.right
-        )
+        let rrep = (&self.right).into_iter().map(|c| c.to_string()).collect::<Vec<String>>().join(", ");
+        write!(f, "({} => [{}])", self.left, rrep)
     }
 }
 
