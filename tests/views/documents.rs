@@ -21,14 +21,14 @@ mod documents {
     #[test]
     fn new_to_string() {
         let doc = Document::new();
-        let str = doc.to_string();
-        assert_eq!(str, "(document asset: )");
+        let rep = format!("{}", doc);
+        assert_eq!(rep, "(document name: \"\" description: \"\" asset: (asset symbols: [] grammar: []))");
     }
 
     #[test]
     fn new_to_json() {
         let doc = Document::new();
-        let str = doc.to_json();
-        assert_eq!(str, "{\"name\":\"\",\"description\":\"\",\"asset\":{\"symbols\":[],\"grammar\":[]}}");
+        let rep = format!("{}", doc);
+        assert_eq!(rep, "{\"name\":\"\",\"description\":\"\",\"asset\":{\"symbols\":[],\"grammar\":[]}}");
     }
 }
