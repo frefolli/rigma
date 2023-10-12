@@ -3,7 +3,6 @@ use std::fmt;
 
 #[derive(Serialize, Clone, Debug, PartialEq)]
 pub struct Symbol {
-    pub id: i32,
     pub asset: i32,
     pub name: String,
     pub terminality: bool
@@ -11,8 +10,8 @@ pub struct Symbol {
 
 impl fmt::Display for Symbol {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "(symbol id: {} asset: {} name: \"{}\" terminality: {})",
-            self.id, self.asset, self.name, self.terminality
+        write!(f, "(symbol asset: {} name: \"{}\" terminality: {})",
+            self.asset, self.name, self.terminality
         )
     }
 }
@@ -20,7 +19,6 @@ impl fmt::Display for Symbol {
 impl Symbol {
     pub fn new() -> Symbol {
         return Symbol {
-            id: 0,
             asset: 0,
             name: "".to_string(),
             terminality: false

@@ -3,7 +3,6 @@ use std::fmt;
 
 #[derive(Serialize, Clone, Debug, PartialEq)]
 pub struct Production {
-    pub id: i32,
     pub asset: i32,
     pub left: i32,
     pub right: Vec<i32>
@@ -12,14 +11,13 @@ pub struct Production {
 impl fmt::Display for Production {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let rrep = (&self.right).into_iter().map(|c| c.to_string()).collect::<Vec<String>>().join(", ");
-        write!(f, "({} / {} : {} => [{}])", self.id, self.asset, self.left, rrep)
+        write!(f, "({} : {} => [{}])", self.asset, self.left, rrep)
     }
 }
 
 impl Production {
     pub fn new() -> Production {
         return Production {
-            id: 0,
             asset: 0,
             left: 0,
             right: [].to_vec()

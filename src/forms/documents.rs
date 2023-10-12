@@ -3,15 +3,14 @@ use std::fmt;
 
 #[derive(Serialize, Debug, PartialEq)]
 pub struct Document {
-    pub id: i32,
     pub name: String,
     pub description: String,
 }
 
 impl fmt::Display for Document {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "(document id: {} name: \"{}\" description: \"{}\")",
-            self.id, self.name, self.description
+        write!(f, "(document name: \"{}\" description: \"{}\")",
+            self.name, self.description
         )
     }
 }
@@ -19,7 +18,6 @@ impl fmt::Display for Document {
 impl Document {
     pub fn new() -> Document {
         return Document {
-            id: 0,
             name: "".to_string(),
             description: "".to_string(),
         }
