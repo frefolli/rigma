@@ -3,6 +3,7 @@ use crate::forms;
 use crate::connection::{get_connection};
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
+use crate::schema;
 
 pub struct Asset {
     conn: PgConnection
@@ -15,13 +16,12 @@ impl Asset {
         }
     }
 
-    pub fn create(&mut self, doc: &forms::Asset) -> models::Asset {
-        use crate::schema::assets;
-        diesel::insert_into(assets::table)
-            .values(doc)
+    pub fn create(&mut self, asset: &forms::Asset) -> models::Asset {
+        diesel::insert_into(schema::assets::table)
+            .values(asset)
             .returning(models::Asset::as_returning())
             .get_result(&mut self.conn)
-            .expect("Error saving new post")
+            .expect("Error saving new asset")
     }
 
     pub fn all(&mut self) -> Vec<models::Asset> {
@@ -29,5 +29,12 @@ impl Asset {
         assets.select(models::Asset::as_select())
              .load(&mut self.conn)
              .expect("Error loading assets")
+    }
+
+    pub fn delete_all(&mut self) {
+        use crate::schema::assets::dsl::*;
+        diesel::delete(assets)
+            .execute(&mut self.conn)
+            .expect("Error deleting all assets");
     }
 }

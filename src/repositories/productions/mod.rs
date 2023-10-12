@@ -1,5 +1,6 @@
 use crate::models;
 use crate::forms;
+use crate::schema;
 use crate::connection::{get_connection};
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
@@ -15,13 +16,20 @@ impl Production {
         }
     }
 
-    pub fn create(&mut self, doc: &forms::Production) -> models::Production {
-        use crate::schema::productions;
-        diesel::insert_into(productions::table)
-            .values(doc)
+    pub fn create(&mut self, production: &forms::Production) -> models::Production {
+        diesel::insert_into(schema::productions::table)
+            .values(production)
             .returning(models::Production::as_returning())
             .get_result(&mut self.conn)
-            .expect("Error saving new post")
+            .expect("Error saving new production")
+    }
+
+    pub fn import(&mut self, productions: &Vec<forms::Production>) -> Vec<models::Production> {
+        diesel::insert_into(schema::productions::table)
+            .values(productions)
+            .returning(models::Production::as_returning())
+            .get_results(&mut self.conn)
+            .expect("Error saving new production")
     }
 
     pub fn all(&mut self) -> Vec<models::Production> {
@@ -29,5 +37,12 @@ impl Production {
         productions.select(models::Production::as_select())
              .load(&mut self.conn)
              .expect("Error loading productions")
+    }
+
+    pub fn delete_all(&mut self) {
+        use crate::schema::productions::dsl::*;
+        diesel::delete(productions)
+            .execute(&mut self.conn)
+            .expect("Error deleting all productions");
     }
 }

@@ -12,7 +12,7 @@ pub struct ModelSaver {
 }
 
 impl ModelSaver {
-    pub fn new() -> ModelSaver {
+    fn new() -> ModelSaver {
         ModelSaver {
             document: models::Document::new(),
             asset: models::Asset::new(),
@@ -25,20 +25,33 @@ impl ModelSaver {
     pub fn from(view: &views::Document) -> ModelSaver {
         let mut model = ModelSaver::new();
         model.absorb_document(view);
-        // model.absorb_asset(view.asset);
-        // model.absorb_symbols(view.asset.symbols);
-        // model.absorb_productions(view.asset.productions);
+        model.absorb_asset();
+        model.absorb_symbols(&view.asset.symbols);
+        // model.absorb_produtions(&view.asset.productions);
         model
     }
 
     fn absorb_document(&mut self, view: &views::Document) {
         let form = forms::Document::from(&view.name, &view.description);
-        // save Document to 
         let mut repo = repositories::Document::new();
         self.document = repo.create(&form);
     }
 
-    pub fn save(&self) {
-        // TODO
+    fn absorb_asset(&mut self) {
+        let form = forms::Asset::from(self.document.id);
+        let mut repo = repositories::Asset::new();
+        self.asset = repo.create(&form);
     }
+
+    fn absorb_symbols(&mut self, view: &Vec<views::Symbol>) {
+        let mut forms_ = Vec::<forms::Symbol>::new();
+        for symbol in view {
+            forms_.push(forms::Symbol::from(self.asset.id, &symbol.name, symbol.terminality));
+        }
+        let mut repo = repositories::Symbol::new();
+        self.symbols = repo.import(&forms_);
+    }
+
+    fn absorb_productions(&mut self, view: &Vec<views::Production>) {
+    } 
 }

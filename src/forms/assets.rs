@@ -17,8 +17,12 @@ impl fmt::Display for Asset {
 
 impl Asset {
     pub fn new() -> Asset {
+        Asset::from(0)
+    }
+
+    pub fn from(document: i32) -> Asset {
         return Asset {
-            document: 0
+            document: document
         }
     }
 

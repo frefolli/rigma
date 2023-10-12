@@ -1,5 +1,6 @@
 use crate::models;
 use crate::forms;
+use crate::schema;
 use crate::connection::{get_connection};
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
@@ -15,13 +16,20 @@ impl Symbol {
         }
     }
 
-    pub fn create(&mut self, doc: &forms::Symbol) -> models::Symbol {
-        use crate::schema::symbols;
-        diesel::insert_into(symbols::table)
-            .values(doc)
+    pub fn create(&mut self, sym: &forms::Symbol) -> models::Symbol {
+        diesel::insert_into(schema::symbols::table)
+            .values(sym)
             .returning(models::Symbol::as_returning())
             .get_result(&mut self.conn)
-            .expect("Error saving new post")
+            .expect("Error saving new symbol")
+    }
+
+    pub fn import(&mut self, syms: &Vec<forms::Symbol>) -> Vec<models::Symbol> {
+        diesel::insert_into(schema::symbols::table)
+            .values(syms)
+            .returning(models::Symbol::as_returning())
+            .get_results(&mut self.conn)
+            .expect("Error saving new symbol")
     }
 
     pub fn all(&mut self) -> Vec<models::Symbol> {
@@ -29,5 +37,12 @@ impl Symbol {
         symbols.select(models::Symbol::as_select())
              .load(&mut self.conn)
              .expect("Error loading symbols")
+    }
+
+    pub fn delete_all(&mut self) {
+        use crate::schema::symbols::dsl::*;
+        diesel::delete(symbols)
+            .execute(&mut self.conn)
+            .expect("Error deleting all symbols");
     }
 }

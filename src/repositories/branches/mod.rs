@@ -1,5 +1,6 @@
 use crate::models;
 use crate::forms;
+use crate::schema;
 use crate::connection::{get_connection};
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
@@ -15,10 +16,17 @@ impl Branch {
         }
     }
 
-    pub fn create(&mut self, doc: &forms::Branch) -> models::Branch {
-        use crate::schema::branches;
-        diesel::insert_into(branches::table)
-            .values(doc)
+    pub fn create(&mut self, branch: &forms::Branch) -> models::Branch {
+        diesel::insert_into(schema::branches::table)
+            .values(branch)
+            .returning(models::Branch::as_returning())
+            .get_result(&mut self.conn)
+            .expect("Error saving new post")
+    }
+
+    pub fn import(&mut self, branches: &forms::Branch) -> models::Branch {
+        diesel::insert_into(schema::branches::table)
+            .values(branches)
             .returning(models::Branch::as_returning())
             .get_result(&mut self.conn)
             .expect("Error saving new post")
@@ -29,5 +37,12 @@ impl Branch {
         branches.select(models::Branch::as_select())
              .load(&mut self.conn)
              .expect("Error loading branches")
+    }
+
+    pub fn delete_all(&mut self) {
+        use crate::schema::branches::dsl::*;
+        diesel::delete(branches)
+            .execute(&mut self.conn)
+            .expect("Error deleting all branches");
     }
 }

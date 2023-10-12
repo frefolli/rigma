@@ -21,10 +21,14 @@ impl fmt::Display for Symbol {
 
 impl Symbol {
     pub fn new() -> Symbol {
+        Symbol::from(0, "", false)
+    }
+
+    pub fn from(asset: i32, name: &str, terminality: bool) -> Symbol {
         return Symbol {
-            asset: 0,
-            name: "".to_string(),
-            terminality: false
+            asset: asset,
+            name: name.to_string(),
+            terminality: terminality
         }
     }
 
