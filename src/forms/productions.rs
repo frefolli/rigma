@@ -1,20 +1,18 @@
 use serde::Serialize;
 use std::fmt;
-use diesel::prelude::{Insertable};
+use diesel::prelude::{Selectable, Queryable};
 
-#[derive(Serialize, Clone, Debug, PartialEq, Insertable)]
+#[derive(Serialize, Clone, Debug, PartialEq, Selectable, Queryable)]
 #[diesel(table_name = crate::schema::productions)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Production {
     pub asset: i32,
-    pub left: i32,
-    pub right: Vec<i32>
+    pub left: i32
 }
 
 impl fmt::Display for Production {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let rrep = (&self.right).into_iter().map(|c| c.to_string()).collect::<Vec<String>>().join(", ");
-        write!(f, "({} : {} => [{}])", self.asset, self.left, rrep)
+        write!(f, "(production asset: {} left: {})", self.asset, self.left)
     }
 }
 
@@ -22,8 +20,7 @@ impl Production {
     pub fn new() -> Production {
         return Production {
             asset: 0,
-            left: 0,
-            right: [].to_vec()
+            left: 0
         }
     }
 

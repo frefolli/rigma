@@ -1,22 +1,23 @@
 use crate::models::documents::Document as DocumentModel;
 use crate::forms::documents::Document as DocumentForm;
-use diesel_connection::{pg::get_connection, PoolError};
+use crate::connection::{get_connection};
+use diesel::prelude::*;
 
-pub fn create(doc: &DocumentForm) -> Document {
+pub fn create(doc: &DocumentForm) -> DocumentModel {
     use crate::schema::documents;
-    let conn = get_connection().expect("Error connecting to server");
+    let conn = &mut get_connection();
 
     diesel::insert_into(documents::table)
         .values(doc)
-        .returning(Document::as_returning())
+        .returning(DocumentModel::as_returning())
         .get_result(conn)
         .expect("Error saving new post")
 }
 
-pub fn all() -> Vec<Document> {
-    use crate::schema::documents::dsl::documents;
-    let conn = get_connection().expect("Error connecting to server");
-    posts.select(Post::as_select())
-         .load(connection)
-         .expect("Error loading posts")
+pub fn all() -> Vec<DocumentModel> {
+    use crate::schema::documents::dsl::*;
+    let conn = &mut get_connection();
+    documents.select(DocumentModel::as_select())
+         .load(conn)
+         .expect("Error loading documents")
 }
