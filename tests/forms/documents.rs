@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod documents {
-    use rigma::forms::documents::{Document};
+    use rigma::forms::{Document};
 
     #[test]
     fn new_empty() {
@@ -11,9 +11,7 @@ mod documents {
 
     #[test]
     fn new_fill() {
-        let mut doc = Document::new();
-        doc.name = "name".to_string();
-        doc.description = "desc".to_string();
+        let mut doc = Document::from("name", "desc");
         assert_eq!(doc.name, "name".to_string());
         assert_eq!(doc.description, "desc".to_string());
     }

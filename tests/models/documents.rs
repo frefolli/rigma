@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod documents {
-    use rigma::models::documents::{Document};
+    use rigma::models::{Document};
 
     #[test]
     fn new_empty() {

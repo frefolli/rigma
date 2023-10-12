@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod branches {
-    use rigma::models::branches::{Branch};
+    use rigma::models::{Branch};
 
     #[test]
     fn new_empty() {

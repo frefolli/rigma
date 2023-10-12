@@ -1,8 +1,6 @@
 #[cfg(test)]
 mod assets {
-    use rigma::views::assets::{Asset};
-    use rigma::views::symbols::{Symbol};
-    use rigma::views::productions::{Production};
+    use rigma::views::{Asset, Symbol, Production};
 
     #[test]
     fn new_empty() {

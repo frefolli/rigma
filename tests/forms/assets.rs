@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod assets {
-    use rigma::forms::assets::{Asset};
+    use rigma::forms::{Asset};
 
     #[test]
     fn new_empty() {

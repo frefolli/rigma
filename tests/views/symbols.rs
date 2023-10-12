@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod symbols {
-    use rigma::views::symbols::{Symbol};
+    use rigma::views::{Symbol};
 
     #[test]
     fn new_empty() {

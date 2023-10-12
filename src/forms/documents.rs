@@ -20,9 +20,13 @@ impl fmt::Display for Document {
 
 impl Document {
     pub fn new() -> Document {
+        Document::from("", "")
+    }
+
+    pub fn from(name: &str, description: &str) -> Document {
         return Document {
-            name: "".to_string(),
-            description: "".to_string(),
+            name: name.to_string(),
+            description: description.to_string(),
         }
     }
 

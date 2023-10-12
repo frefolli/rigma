@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod productions {
-    use rigma::models::productions::{Production};
+    use rigma::models::{Production};
 
     #[test]
     fn new_empty() {

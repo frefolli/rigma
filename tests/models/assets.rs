@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod assets {
-    use rigma::models::assets::{Asset};
+    use rigma::models::{Asset};
 
     #[test]
     fn new_empty() {
