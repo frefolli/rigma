@@ -1,7 +1,10 @@
 use serde::Serialize;
 use std::fmt;
+use diesel::prelude::{Selectable, Queryable};
 
-#[derive(Serialize, Debug, PartialEq)]
+#[derive(Serialize, Debug, PartialEq, Selectable, Queryable)]
+#[diesel(table_name = crate::schema::assets)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Asset {
     pub id: i32,
     pub document: i32

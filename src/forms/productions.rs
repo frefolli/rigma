@@ -1,7 +1,10 @@
 use serde::Serialize;
 use std::fmt;
+use diesel::prelude::{Insertable};
 
-#[derive(Serialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Clone, Debug, PartialEq, Insertable)]
+#[diesel(table_name = crate::schema::productions)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Production {
     pub asset: i32,
     pub left: i32,

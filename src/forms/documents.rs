@@ -1,7 +1,10 @@
 use serde::Serialize;
 use std::fmt;
+use diesel::prelude::{Insertable};
 
-#[derive(Serialize, Debug, PartialEq)]
+#[derive(Serialize, Debug, PartialEq, Insertable)]
+#[diesel(table_name = crate::schema::documents)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Document {
     pub name: String,
     pub description: String,
