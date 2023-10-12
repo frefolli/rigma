@@ -1,8 +1,8 @@
 use serde::Serialize;
 use std::fmt;
-use diesel::prelude::{Selectable, Queryable};
+use diesel::prelude::{Insertable};
 
-#[derive(Serialize, Clone, Debug, PartialEq, Selectable, Queryable)]
+#[derive(Serialize, Clone, Debug, PartialEq, Insertable)]
 #[diesel(table_name = crate::schema::productions)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Production {

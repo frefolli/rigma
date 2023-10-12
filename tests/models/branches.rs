@@ -1,10 +1,10 @@
 #[cfg(test)]
 mod branches {
-    use rigma::models::branches::{Production};
+    use rigma::models::branches::{Branch};
 
     #[test]
     fn new_empty() {
-        let branch = Production::new();
+        let branch = Branch::new();
         assert_eq!(branch.id, 0);
         assert_eq!(branch.production, 0);
         assert_eq!(branch.symbol, 0);
@@ -13,7 +13,7 @@ mod branches {
 
     #[test]
     fn new_fill() {
-        let mut branch = Production::new();
+        let mut branch = Branch::new();
         branch.id = 1;
         branch.production = 1;
         branch.symbol = 1;
@@ -26,14 +26,14 @@ mod branches {
 
     #[test]
     fn new_to_string() {
-        let branch = Production::new();
+        let branch = Branch::new();
         let rep = format!("{}", branch);
         assert_eq!(rep, "(branch id: 0 production: 0 symbol: 0 index: 0)");
     }
 
     #[test]
     fn new_to_json() {
-        let branch = Production::new();
+        let branch = Branch::new();
         let rep = format!("{}", branch.to_json());
         assert_eq!(rep, "{\"id\":0,\"production\":0,\"symbol\":0,\"index\":0}");
     }

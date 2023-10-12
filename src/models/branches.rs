@@ -3,13 +3,13 @@ use std::fmt;
 use diesel::prelude::{Selectable, Queryable};
 
 #[derive(Serialize, Clone, Debug, PartialEq, Selectable, Queryable)]
-#[diesel(table_name = crate::schema::productions)]
+#[diesel(table_name = crate::schema::branches)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Branch {
     pub id: i32,
     pub production: i32,
-    pub left: i32,
-    pub right: Vec<i32>
+    pub symbol: i32,
+    pub index: i32
 }
 
 impl fmt::Display for Branch {
