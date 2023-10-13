@@ -24,11 +24,11 @@ impl Branch {
             .expect("Error saving new post")
     }
 
-    pub fn import(&mut self, branches: &forms::Branch) -> models::Branch {
+    pub fn import(&mut self, branches: &Vec<forms::Branch>) -> Vec<models::Branch> {
         diesel::insert_into(schema::branches::table)
             .values(branches)
             .returning(models::Branch::as_returning())
-            .get_result(&mut self.conn)
+            .get_results(&mut self.conn)
             .expect("Error saving new post")
     }
 

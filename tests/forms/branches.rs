@@ -12,10 +12,7 @@ mod branches {
 
     #[test]
     fn new_fill() {
-        let mut branch = Branch::new();
-        branch.production = 1;
-        branch.symbol = 1;
-        branch.index = 1;
+        let branch = Branch::from(1, 1, 1);
         assert_eq!(branch.production, 1);
         assert_eq!(branch.symbol, 1);
         assert_eq!(branch.index, 1);

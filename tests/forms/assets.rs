@@ -10,7 +10,7 @@ mod assets {
 
     #[test]
     fn new_fill() {
-        let mut asset = Asset::from(1);
+        let asset = Asset::from(1);
         assert_eq!(asset.document, 1);
     }
 

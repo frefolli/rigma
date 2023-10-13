@@ -19,10 +19,14 @@ impl fmt::Display for Branch {
 
 impl Branch {
     pub fn new() -> Branch {
+        Branch::from(0, 0, 0)
+    }
+
+    pub fn from(production: i32, symbol: i32, index: i32) -> Branch {
         return Branch {
-            production: 0,
-            symbol: 0,
-            index: 0
+            production: production,
+            symbol: symbol,
+            index: index
         }
     }
 

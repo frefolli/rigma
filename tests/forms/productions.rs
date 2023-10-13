@@ -11,9 +11,7 @@ mod productions {
 
     #[test]
     fn new_fill() {
-        let mut production = Production::new();
-        production.asset = 1;
-        production.left = 1;
+        let production = Production::from(1, 1);
         assert_eq!(production.asset, 1);
         assert_eq!(production.left, 1);
     }

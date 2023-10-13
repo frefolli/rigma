@@ -27,7 +27,7 @@ impl ModelSaver {
         model.absorb_document(view);
         model.absorb_asset();
         model.absorb_symbols(&view.asset.symbols);
-        // model.absorb_produtions(&view.asset.productions);
+        model.absorb_productions(&view.asset.grammar);
         model
     }
 
@@ -53,5 +53,23 @@ impl ModelSaver {
     }
 
     fn absorb_productions(&mut self, view: &Vec<views::Production>) {
+        let mut prod_repo = repositories::Production::new();
+        let mut branch_repo = repositories::Branch::new();
+        for prod_view in view {
+            let left = self.identify_symbol(&prod_view.left);
+            let prod = prod_repo.create(&forms::Production::from(self.asset.id, left));
+            let mut branch_forms = Vec::<forms::Branch>::new();
+            let mut index = 0;
+            for sym in &prod_view.right {
+                let sym_index = self.identify_symbol(&sym);
+                branch_forms.push(forms::Branch::from(prod.id, sym_index, index));
+                index += 1;
+            }
+            self.branches.append(&mut branch_repo.import(&branch_forms));
+        }
     } 
+
+    fn identify_symbol(&self, sym: &str) -> i32 {
+        (&self.symbols).into_iter().position(|x| x.name == sym).expect("symbol should be in symbols array").try_into().expect("unable to convert index to i32")
+    }
 }

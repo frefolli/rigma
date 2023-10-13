@@ -11,7 +11,7 @@ mod documents {
 
     #[test]
     fn new_fill() {
-        let mut doc = Document::from("name", "desc");
+        let doc = Document::from("name", "desc");
         assert_eq!(doc.name, "name".to_string());
         assert_eq!(doc.description, "desc".to_string());
     }

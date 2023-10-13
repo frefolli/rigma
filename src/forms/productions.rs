@@ -18,9 +18,13 @@ impl fmt::Display for Production {
 
 impl Production {
     pub fn new() -> Production {
+        Production::from(0, 0)
+    }
+
+    pub fn from(asset: i32, left: i32) -> Production {
         return Production {
-            asset: 0,
-            left: 0
+            asset: asset,
+            left: left
         }
     }
 

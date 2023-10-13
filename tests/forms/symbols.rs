@@ -12,7 +12,7 @@ mod symbols {
 
     #[test]
     fn new_fill() {
-        let mut symbol = Symbol::from(1, "name", true);
+        let symbol = Symbol::from(1, "name", true);
         assert_eq!(symbol.asset, 1);
         assert_eq!(symbol.name, "name".to_string());
         assert_eq!(symbol.terminality, true);
