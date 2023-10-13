@@ -6,3 +6,4 @@ pub mod repositories;
 pub mod connection;
 pub mod services;
 pub mod core;
+pub mod cli;
