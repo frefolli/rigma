@@ -37,4 +37,12 @@ impl Asset {
             .execute(&mut self.conn)
             .expect("Error deleting all assets");
     }
+
+    pub fn find(&mut self, asset_id: i32) -> models::Asset {
+        use crate::schema::assets::dsl::*;
+        assets.find(asset_id)
+            .select(models::Asset::as_returning())
+            .first(&mut self.conn)
+             .expect("Error finding asset")
+    }
 }

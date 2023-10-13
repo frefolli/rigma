@@ -45,4 +45,12 @@ impl Branch {
             .execute(&mut self.conn)
             .expect("Error deleting all branches");
     }
+
+    pub fn filter(&mut self, production_id: i32) -> Vec<models::Branch> {
+        use crate::schema::branches::dsl::*;
+        branches.filter(production.eq(production_id))
+            .select(models::Branch::as_returning())
+            .load(&mut self.conn)
+            .expect("Error finding branch")
+    }
 }

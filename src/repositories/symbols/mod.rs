@@ -45,4 +45,12 @@ impl Symbol {
             .execute(&mut self.conn)
             .expect("Error deleting all symbols");
     }
+
+    pub fn filter(&mut self, asset_id: i32) -> Vec<models::Symbol> {
+        use crate::schema::symbols::dsl::*;
+        symbols.filter(asset.eq(asset_id))
+            .select(models::Symbol::as_returning())
+            .load(&mut self.conn)
+            .expect("Error finding symbol")
+    }
 }

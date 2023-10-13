@@ -45,4 +45,12 @@ impl Production {
             .execute(&mut self.conn)
             .expect("Error deleting all productions");
     }
+
+    pub fn filter(&mut self, asset_id: i32) -> Vec<models::Production> {
+        use crate::schema::productions::dsl::*;
+        productions.filter(asset.eq(asset_id))
+            .select(models::Production::as_returning())
+            .load(&mut self.conn)
+            .expect("Error finding production")
+    }
 }

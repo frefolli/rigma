@@ -3,8 +3,8 @@ use std::fmt;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Production {
-    pub left: String,
-    pub right: Vec<String>
+    pub left: i32,
+    pub right: Vec<i32>
 }
 
 impl fmt::Display for Production {
@@ -17,7 +17,7 @@ impl fmt::Display for Production {
 impl Production {
     pub fn new() -> Production {
         return Production {
-            left: "".to_string(),
+            left: 0,
             right: [].to_vec()
         }
     }

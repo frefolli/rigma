@@ -5,3 +5,4 @@ pub mod schema;
 pub mod repositories;
 pub mod connection;
 pub mod services;
+pub mod core;

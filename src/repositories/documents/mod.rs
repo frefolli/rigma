@@ -37,4 +37,12 @@ impl Document {
             .execute(&mut self.conn)
             .expect("Error deleting all documents");
     }
+
+    pub fn find(&mut self, document_id: i32) -> models::Document {
+        use crate::schema::documents::dsl::*;
+        documents.find(document_id)
+            .select(models::Document::as_returning())
+            .first(&mut self.conn)
+             .expect("Error finding document")
+    }
 }

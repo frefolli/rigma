@@ -1,8 +1,8 @@
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 use super::assets::{Asset};
 use std::fmt;
 
-#[derive(Serialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub struct Document {
     pub name: String,
     pub description: String,
